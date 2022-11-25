@@ -8,13 +8,13 @@ export const Input = (props) => {
       onChange={(e) => {
         setValue(e.target.value);
       }}
-      // onKeyDown={(e) => {
-      //   if (e.key === "Enter") {
-      //     props.onValueChange(carContext.data, props.data, {
-      //       [props?.column?.colId]: val,
-      //     });
-      //   }
-      // }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          props.onValueChange(props.data, {
+            [props?.column?.colId]: val,
+          });
+        }
+      }}
       onBlur={(e) => {
         props.onValueChange(props.data, {
           [props?.column?.colId]: val,
