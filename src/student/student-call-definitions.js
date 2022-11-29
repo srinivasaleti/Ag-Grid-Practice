@@ -28,6 +28,7 @@ export const StudentColumnDefinitions = ({
         type: "text",
         onValueChange: onCellDataChangedHandler,
         placeholder: "Name",
+        tabIndex: 1,
       },
       metadata: {
         required: true,
@@ -40,6 +41,7 @@ export const StudentColumnDefinitions = ({
         type: "text",
         onValueChange: onCellDataChangedHandler,
         placeholder: "Branch",
+        tabIndex: 2,
       },
       metadata: {
         required: true,
@@ -52,6 +54,7 @@ export const StudentColumnDefinitions = ({
         type: "number",
         onValueChange: onCellDataChangedHandler,
         placeholder: "Age",
+        tabIndex: 3,
       },
       metadata: {
         required: true,
@@ -64,6 +67,7 @@ export const StudentColumnDefinitions = ({
         type: "date",
         onValueChange: onCellDataChangedHandler,
         placeholder: "DOB",
+        tabIndex: "4",
       },
       metadata: {
         required: true,

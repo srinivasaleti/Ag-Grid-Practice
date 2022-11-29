@@ -21,8 +21,9 @@ const StudentDemo = () => {
 
   const addStudent = async (student) => {
     const error = validateSchema(student, StudentSchema);
-
+    console.log(error);
     if (!error) {
+      console.log("Add Student");
       await StudentApi.addStudent(student);
       setPinnedRowData({ id: pinnedRowID });
       return;

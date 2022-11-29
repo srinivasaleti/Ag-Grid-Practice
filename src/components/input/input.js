@@ -3,6 +3,7 @@ import "./style.css";
 export const Input = (props) => {
   const [val, setValue] = useState(props.value);
 
+  console.log(props.tabIndex)
   return (
     <input
       onChange={(e) => {
@@ -14,12 +15,19 @@ export const Input = (props) => {
             [props?.column?.colId]: val,
           });
         }
+        if (e.key == "Tab") {
+          // document.querySelectorAll("[tabindex='2']")[4].focus();
+        }
+        // autoTab(e);
       }}
       onBlur={(e) => {
-        props.onValueChange(props.data, {
-          [props?.column?.colId]: val,
-        });
+        if (props.data !== val) {
+          props.onValueChange(props.data, {
+            [props?.column?.colId]: val,
+          });
+        }
       }}
+      tabIndex={props.tabIndex}
       placeholder={props.placeholder}
       style={{
         width: "inherit",
