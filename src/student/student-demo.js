@@ -1,4 +1,10 @@
-import React, { useState, useRef, useMemo, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useMemo,
+  useEffect,
+  useCallback,
+} from "react";
 import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
 
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
@@ -67,6 +73,10 @@ const StudentDemo = () => {
     getStudents();
   }, []);
 
+  const getRowID = useCallback((params) => {
+    return params.data.id;
+  });
+
   // DefaultColDef sets props common to all Columns
   const defaultColDef = useMemo(() => ({
     sortable: true,
@@ -81,6 +91,7 @@ const StudentDemo = () => {
       >
         <AgGridReact
           rowGroupPanelShow="always"
+          getRowId={getRowID}
           ref={gridRef}
           rowData={data}
           columnDefs={columnDefs}
