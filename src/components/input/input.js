@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 export const Input = (props) => {
   const [val, setValue] = useState(props.value);
 
-  console.log(props.tabIndex)
+  useEffect(() => {
+    setValue(props.value)
+  }, [props.value]);
+
   return (
     <input
       onChange={(e) => {

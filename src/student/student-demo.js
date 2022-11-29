@@ -13,12 +13,15 @@ import "ag-grid-enterprise";
 import { StudentSchema, validateSchema } from "./schema";
 import { StudentColumnDefinitions } from "./student-call-definitions";
 import { StudentApi } from "../api/api";
+import { useGridAPI } from "../hooks/use-grid-api";
 
 const pinnedRowID = "PINNED_ROW_ID";
 const StudentDemo = () => {
   const gridRef = useRef(); // Optional - for accessing Grid's API
   const [data, setData] = useState([]);
   const [pinnedBottomRowData, setPinnedRowData] = useState({ id: pinnedRowID });
+
+  const gridAPI = useGridAPI(gridRef);
 
   //Important: Ag grid columns does not maintain latest state. In order to hold the latest data if would be recommended to maintain ref.
   //Check https://stackoverflow.com/questions/57847594/react-hooks-accessing-up-to-date-state-from-within-a-callback/60643670#60643670
@@ -27,23 +30,21 @@ const StudentDemo = () => {
 
   const addStudent = async (student) => {
     const error = validateSchema(student, StudentSchema);
-    console.log(error);
     if (!error) {
-      console.log("Add Student");
-      await StudentApi.addStudent(student);
+      StudentApi.addStudent(student);
+      gridAPI.onInsertOne(student);
       setPinnedRowData({ id: pinnedRowID });
       return;
     }
   };
 
   const updateStudent = async (student) => {
-    await StudentApi.updateStudent(student);
-    await getStudents();
+    StudentApi.updateStudent(student);
   };
 
   const deleteStudent = async (student) => {
-    await StudentApi.deleteStudent(student);
-    await getStudents();
+    StudentApi.deleteStudent(student);
+    gridAPI.onRemoveOne(student);
   };
 
   const onCellDataChangedHandler = async (currentRow, newVal) => {
@@ -52,9 +53,10 @@ const StudentDemo = () => {
       setPinnedRowData(student);
       await addStudent(student);
     } else {
-      await updateStudent({ ...currentRow, ...newVal });
+      const newStudent = { ...currentRow, ...newVal };
+      gridAPI.onUpdateOne(newStudent);
+      updateStudent(newStudent);
     }
-    await getStudents();
   };
 
   const columns = StudentColumnDefinitions({
